@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <vitasdk.h>
+#include "usb.h"
 
 #define COUNT_OF(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -11,7 +12,8 @@ const cmd_definition cmd_definitions[] = {
     {.name = "destroy", .arg_count = 0, .executor = &cmd_destroy},
     {.name = "launch", .arg_count = 1, .executor = &cmd_launch},
     {.name = "reboot", .arg_count = 0, .executor = &cmd_reboot},
-    {.name = "screen", .arg_count = 1, .executor = &cmd_screen}};
+    {.name = "screen", .arg_count = 1, .executor = &cmd_screen},
+    {.name = "usb", .arg_count = 2, .executor = &cmd_usb}};
 
 const cmd_definition *cmd_get_definition(char *cmd_name) {
   for (unsigned int i = 0; i < COUNT_OF(cmd_definitions); i++) {
@@ -23,6 +25,48 @@ const cmd_definition *cmd_get_definition(char *cmd_name) {
   return NULL;
 }
 
+
+void cmd_usb(char **arg_list, size_t arg_count, char *res_msg)
+{
+  char *type = arg_list[1];
+  char *state = arg_list[2];
+  if(strcmp(state, "enable"))
+  {
+    initUsb();
+    if(strcmp(type, "sd2vita"))
+    {
+      memoryConfig = 2;
+      initUsb();
+    }
+    else if(strcmp(type, "OFFICIAL"))
+    {
+      memoryConfig = 1;
+      initUsb();
+    }
+    else
+    {
+      strcpy(res_msg, "Error invalid memory config given! It should be either OFFICIAL or sd2vita");
+    }
+    
+  }
+  else if(strcmp(state, "disable"))
+  {
+    int res = stopUsb();
+    if(res < 0)
+    {
+      snprintf(res_msg, "Error stopping usb: %x", res);
+    }
+    else
+    {
+      strcpy(res_msg, "Success!");
+    }
+  }
+  else
+  {
+    strcpy(res_msg, "Error argument should be either enable or disable !");
+  }
+  
+}
 void cmd_destroy(char **arg_list, size_t arg_count, char *res_msg) {
   sceAppMgrDestroyOtherApp();
   strcpy(res_msg, "Apps destroyed.\n");
