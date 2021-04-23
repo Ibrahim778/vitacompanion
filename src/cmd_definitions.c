@@ -82,7 +82,6 @@ void cmd_file_launch(char **arg_list, size_t arg_count, char *res_msg)
   printf("ret= 0x%X\n", res);
 }
 
-<<<<<<< HEAD
 void cmd_vpk_install(char **arg_list, size_t arg_count, char *res_msg)
 {
   if(checkFileExist(arg_list[1]))
@@ -101,15 +100,6 @@ void cmd_vpk_install(char **arg_list, size_t arg_count, char *res_msg)
     strcpy(res_msg, "Error VPK file not found!\n");
   }
 }
-=======
-const cmd_definition cmd_definitions[] = {
-    {.name = "help", .description = "Display this help screen", .arg_count = 0, .executor = &cmd_help},
-    {.name = "destroy", .description = "Kill all running applications", .arg_count = 0, .executor = &cmd_destroy},
-    {.name = "launch", .description = "Launch an app by Title ID", .arg_count = 1, .executor = &cmd_launch},
-    {.name = "reboot", .description = "Reboot the console", .arg_count = 0, .executor = &cmd_reboot},
-    {.name = "screen", .description = "Turn the screen on or off", .arg_count = 1, .executor = &cmd_screen}
-};
->>>>>>> 2b161ba2036083b99c7d0caa720f67a69e56a038
 
 void cmd_ext_vpk_install(char **arg, size_t length, char *res_msg)
 {
