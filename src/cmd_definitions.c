@@ -11,6 +11,7 @@
 
 #define COUNT_OF(arr) (sizeof(arr) / sizeof(arr[0]))
 
+<<<<<<< HEAD
 int launchAppFromFileExport(uintptr_t path, uintptr_t cmd, uint32_t cmdlen);
 
 #define printf sceClibPrintf
@@ -118,15 +119,16 @@ void cmd_ext_vpk_install(char **arg, size_t length, char *res_msg)
 
 const cmd_definition cmd_definitions[] = 
 {
-    {.name = "destroy", .arg_count = 0, .executor = &cmd_destroy},
-    {.name = "launch", .arg_count = 1, .executor = &cmd_launch},
-    {.name = "reboot", .arg_count = 0, .executor = &cmd_reboot},
-    {.name = "screen", .arg_count = 1, .executor = &cmd_screen},
-    {.name = "file", .arg_count = 1, .executor = &cmd_file_launch},
-    {.name = "usb", .arg_count = 2, .executor = &cmd_usb},
-    {.name = "skprx", .arg_count = 1, .executor = &cmd_skprx_load},
-    {.name = "vpk", .arg_count = 1, .executor = &cmd_vpk_install},
-    {.name = "ext_vpk", .arg_count = 1, .executor = &cmd_ext_vpk_install}
+    {.name = "help", .description = "Display this help screen", .arg_count = 0, .executor = &cmd_help},
+    {.name = "destroy", .description = "Kill all running applications", .arg_count = 0, .executor = &cmd_destroy},
+    {.name = "launch", .description = "Launch an app by Title ID", .arg_count = 1, .executor = &cmd_launch},
+    {.name = "reboot", .description = "Reboot the console", .arg_count = 0, .executor = &cmd_reboot},
+    {.name = "screen", .description = "Turn the screen on or off", .arg_count = 1, .executor = &cmd_screen},
+    {.name = "file", .description = "launch a self", .arg_count = 1, .executor = &cmd_file_launch},
+    {.name = "usb", .description = "Start / Stop USB", .arg_count = 2, .executor = &cmd_usb},
+    {.name = "skprx", .description = "Load a skprx plugin", .arg_count = 1, .executor = &cmd_skprx_load},
+    {.name = "vpk", .description = "Extract and Install a VPK", .arg_count = 1, .executor = &cmd_vpk_install},
+    {.name = "ext_vpk", .description = "Install a VPK from a folder", .arg_count = 1, .executor = &cmd_ext_vpk_install}
 };
 
 const cmd_definition *cmd_get_definition(char *cmd_name) 
@@ -140,6 +142,28 @@ const cmd_definition *cmd_get_definition(char *cmd_name)
   }
 
   return NULL;
+}
+
+void cmd_help(char **arg_list, size_t arg_count, char *res_msg) {
+  char buf[2000] = {0};
+  int longest_cmd = 0;
+
+  for (int i = 0; i < COUNT_OF(cmd_definitions); ++i) {
+    int cmd_length = strlen(cmd_definitions[i].name);
+
+    if (cmd_length > longest_cmd) {
+      longest_cmd = cmd_length;
+    }
+  }
+
+  sprintf(buf, "%-*s\t\t%s\n", longest_cmd, "Command", "Description");
+  strcpy(res_msg, buf);
+
+  for (int i = 0; i < COUNT_OF(cmd_definitions); ++i) {
+    sprintf(buf, "%-*s\t\t%s\n", longest_cmd, cmd_definitions[i].name, cmd_definitions[i].description);
+    strcat(res_msg, buf);
+  }
+
 }
 
 void cmd_destroy(char **arg_list, size_t arg_count, char *res_msg) {
