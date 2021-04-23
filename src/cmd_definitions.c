@@ -10,8 +10,6 @@
 
 
 #define COUNT_OF(arr) (sizeof(arr) / sizeof(arr[0]))
-
-<<<<<<< HEAD
 int launchAppFromFileExport(uintptr_t path, uintptr_t cmd, uint32_t cmdlen);
 
 #define printf sceClibPrintf
