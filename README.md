@@ -20,18 +20,22 @@ ur0:tai/loaderCompanion.suprx
 ### USB
 
 Start / Stop USB
+
 usage usb <enable / disable> <storage type (either sd2vita or official)>
 
 ### VPK
 Install a VPK
+
 usage vpk < path >
 
 ### VPK Extracted
 Install and already extracted VPK
+
 usage ext_vpk < path >
 
 ### File (Needs kernel plugin)
 Load a self from a file.
+
 usage file < path >
 
 # Acknowledgements
