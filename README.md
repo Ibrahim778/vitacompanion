@@ -15,6 +15,8 @@ Run VitaShell on your PS Vita, press SELECT to activate the FTP server and copy 
 ur0:tai/loaderCompanion.suprx
 ```
 
+after this install the Kernel Module for this from (here)[google.com]
+
 ## Commands
 
 ### USB
