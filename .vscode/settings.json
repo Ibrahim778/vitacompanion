@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "vitasdk.h": "c"
+        "vitasdk.h": "c",
+        "kernelcontrol.h": "c",
+        "typeinfo": "c",
+        "vshbridge.h": "c"
     }
 }

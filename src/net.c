@@ -80,6 +80,8 @@ int net_thread(unsigned int args, void* argp)
 {
     int ret;
 
+    sceClibPrintf("Net thread started!");
+
     sceKernelDelayThread(3 * 1000 * 1000);
 
     ret = sceNetCtlInit();

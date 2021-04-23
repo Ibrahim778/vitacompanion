@@ -16,3 +16,4 @@ void cmd_launch(char **arg_list, size_t arg_count, char *res_msg);
 void cmd_reboot(char **arg_list, size_t arg_count, char *res_msg);
 void cmd_screen(char **arg_list, size_t arg_count, char *res_msg);
 void cmd_usb(char **arg_list, size_t arg_count, char *res_msg);
+void cmd_get_clocks(char **arg_list, size_t arg_count, char *res_msg);

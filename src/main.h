@@ -1,3 +1,6 @@
 #pragma once
-
-#define ENABLE_LOGGING 0
+#include <psp2/types.h>
+#include <psp2/io/fcntl.h>
+#include <stdarg.h>
+#include <stdio.h>
+#define ENABLE_LOGGING 1
