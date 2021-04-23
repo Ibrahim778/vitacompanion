@@ -41,4 +41,3 @@ usage file < path >
 # Acknowledgements
 
 Thanks to @devNoName120 for vitacompanion, thanks to @SKGleba @The Princess of Sleeping and @GrapheneCT for helping me in a few things (jk everything). Thanks to Teakhanirons for EmergencyMount which is what I used for my usb code.
-Thanks to xerpi for his [vita-ftploader](https://bitbucket.org/xerpi/vita-ftploader/src/87ef1d13a8aa/plugin/?at=master) plugin, I stole a lot of his code (with his permission). Thanks to cpasjuste for [PSP2SHELL](https://github.com/Cpasjuste/PSP2SHELL), it inspired me to create this tool.
