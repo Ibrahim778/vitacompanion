@@ -19,7 +19,7 @@ after this install the Kernel Module for this from here (coming soon)
 
 ## Commands
 
-### USB
+### USB (Needs kernel plugin)
 
 Start / Stop USB
 
