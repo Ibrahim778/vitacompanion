@@ -7,7 +7,7 @@ LoaderCompanion is just vitacompanion but with some more commands speficically d
 Same as vitacompanion.
 
 # Install
-
+Uninstall the original vitacompanion first! (Don't worry loadercompanion is backwards compatible with vitacompanion)
 Run VitaShell on your PS Vita, press SELECT to activate the FTP server and copy `loaderCompanion.suprx` to `ur0:/tai`. Finally, add the following line to `ur0:/tai/config.txt`:
 
 ```
@@ -15,8 +15,7 @@ Run VitaShell on your PS Vita, press SELECT to activate the FTP server and copy 
 ur0:tai/loaderCompanion.suprx
 ```
 
-after this install the Kernel Module for this from here (coming soon)
-
+after this install the Kernel Module for this from [here](https://github.com/Ibrahim778/loaderCompanionKernel)
 ## Commands
 
 ### USB (Needs kernel plugin)
