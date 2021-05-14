@@ -124,8 +124,8 @@ void cmd_rename_file(char **args, size_t length, char *res)
   }
   else
   {
-    int res = sceIoRename(args[1], args[2]);
-    sprintf(res, "Resulted with code %x\n", res);
+    sceIoRename(args[1], args[2]);
+    strcpy(res, "Done\n");
   }
 }
 
