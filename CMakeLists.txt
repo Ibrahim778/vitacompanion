@@ -53,7 +53,7 @@ target_link_libraries(${PROJECT_NAME}
   SceNetCtl_stub_weak
   SceSysmodule_stub_weak
   SceKernelThreadMgr_stub_weak
-  LoaderCompanionKernel_stub
+  LoaderCompanionKernel_stub_weak
   SceIofilemgr_stub_weak
   SceRtc_stub_weak
   SceAppMgr_stub_weak

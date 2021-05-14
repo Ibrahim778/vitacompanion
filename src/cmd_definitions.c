@@ -68,7 +68,7 @@ void cmd_skprx_load(char **arg_list, size_t arg_count, char *res_msg)
   }
   else
   {
-    int res = taiLoadStartKernelModule("ur0:tai/udcd_uvc.skprx", 0, NULL, 0);
+    int res = taiLoadStartKernelModule(arg_list[1], 0, NULL, 0);
     sprintf(res_msg, "Resulted with code: %x\n", res);
   }
 }
