@@ -116,6 +116,19 @@ void cmd_ext_vpk_install(char **arg, size_t length, char *res_msg)
   }
 }
 
+void cmd_rename_file(char **args, size_t length, char *res)
+{
+  if(!checkFileExist(args[1]))
+  {
+    strcpy(res, "Error file does not exist!\n");
+  }
+  else
+  {
+    int res = sceIoRename(args[1], args[2]);
+    sprintf(res, "Resulted with code %x\n", res);
+  }
+}
+
 const cmd_definition cmd_definitions[] = 
 {
     {.name = "help", .description = "Display this help screen", .arg_count = 0, .executor = &cmd_help},
@@ -127,7 +140,8 @@ const cmd_definition cmd_definitions[] =
     {.name = "usb", .description = "Start / Stop USB", .arg_count = 2, .executor = &cmd_usb},
     {.name = "skprx", .description = "Load a skprx plugin", .arg_count = 1, .executor = &cmd_skprx_load},
     {.name = "vpk", .description = "Extract and Install a VPK", .arg_count = 1, .executor = &cmd_vpk_install},
-    {.name = "ext_vpk", .description = "Install a VPK from a folder", .arg_count = 1, .executor = &cmd_ext_vpk_install}
+    {.name = "ext_vpk", .description = "Install a VPK from a folder", .arg_count = 1, .executor = &cmd_ext_vpk_install},
+    {.name = "rename", .description = "Rename a file", .arg_count = 2, .executor = &cmd_rename_file}
 };
 
 const cmd_definition *cmd_get_definition(char *cmd_name) 
