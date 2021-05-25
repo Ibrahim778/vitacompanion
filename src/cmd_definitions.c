@@ -7,6 +7,7 @@
 #include <psp2/vshbridge.h>
 #include "Archives.h"
 #include <taihen.h>
+#include <stdlib.h>
 
 
 #define COUNT_OF(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -59,17 +60,89 @@ void cmd_usb(char **arg_list, size_t arg_count, char *res_msg)
     strcpy(res_msg, "Error should be enable or disable!\n");
 }
 
-void cmd_skprx_load(char **arg_list, size_t arg_count, char *res_msg)
+void cmd_suprx(char **arg_list, size_t argc, char *res_msg)
 {
-  if(!checkFileExist(arg_list[1]))
+  if(!strcmp(arg_list[1], "load"))
   {
-    strcpy(res_msg, "Error plugin not found!\n");
-    return;
+    if(!checkFileExist(arg_list[2]))
+    {
+      strcpy(res_msg, "Error plugin not found!\n");
+      return;
+    }
+    else
+    {
+      int res = sceKernelLoadStartModule(arg_list[2], 0, NULL, 0, NULL, NULL);
+      sprintf(res_msg, "Resulted with code: %x\n", res);
+    }
+  }
+  else if(!strcmp(arg_list[1], "unload"))
+  {
+    int id = (int)strtol(arg_list[2], NULL, 16);
+    int moduleStop = -1;
+    int stopRes = sceKernelStopUnloadModule(id, 0, NULL, 0, NULL, &moduleStop);
+    if(stopRes < 0)
+    {
+      sprintf(res_msg, "Error stopping module, function returned error: 0x%X\n", stopRes);
+    }
+    else
+    {
+      if(moduleStop == SCE_KERNEL_STOP_SUCCESS)
+      {
+        strcpy(res_msg, "Module Stopped and unloaded successfully!\n");
+      }
+      else
+      {
+        sprintf(res_msg, "Error module couldn't stop with result: 0x%X\n", moduleStop);
+      }
+    }
+    
   }
   else
   {
-    int res = taiLoadStartKernelModule(arg_list[1], 0, NULL, 0);
-    sprintf(res_msg, "Resulted with code: %x\n", res);
+    strcpy(res_msg, "Error incorrect arguments, should either be load or unload!\n");
+  }
+}
+
+void cmd_skprx(char **arg_list, size_t arg_count, char *res_msg)
+{
+  if(!strcmp(arg_list[1], "load"))
+  {
+    if(!checkFileExist(arg_list[2]))
+    {
+      strcpy(res_msg, "Error plugin not found!\n");
+      return;
+    }
+    else
+    {
+      int res = taiLoadStartKernelModule(arg_list[2], 0, NULL, 0);
+      sprintf(res_msg, "Resulted with code: %x\n", res);
+    }
+  }
+  else if(!strcmp(arg_list[1], "unload"))
+  {
+    int id = (int)strtol(arg_list[2], NULL, 16);
+    int moduleStop = -1;
+    int stopRes = taiStopUnloadKernelModule(id, 0, NULL, 0, NULL, &moduleStop);
+    if(stopRes < 0)
+    {
+      sprintf(res_msg, "Error stopping module, function returned error: 0x%X\n", stopRes);
+    }
+    else
+    {
+      if(moduleStop == SCE_KERNEL_STOP_SUCCESS)
+      {
+        strcpy(res_msg, "Module Stopped and unloaded successfully!\n");
+      }
+      else
+      {
+        sprintf(res_msg, "Error module couldn't stop with result: 0x%X\n", moduleStop);
+      }
+    }
+    
+  }
+  else
+  {
+    strcpy(res_msg, "Error incorrect arguments, should either be load or unload!\n");
   }
 }
 
@@ -138,7 +211,8 @@ const cmd_definition cmd_definitions[] =
     {.name = "screen", .description = "Turn the screen on or off", .arg_count = 1, .executor = &cmd_screen},
     {.name = "file", .description = "launch a self", .arg_count = 1, .executor = &cmd_file_launch},
     {.name = "usb", .description = "Start / Stop USB", .arg_count = 2, .executor = &cmd_usb},
-    {.name = "skprx", .description = "Load a skprx plugin", .arg_count = 1, .executor = &cmd_skprx_load},
+    {.name = "skprx", .description = "Load / Unload a skprx plugin", .arg_count = 2, .executor = &cmd_skprx},
+    {.name = "suprx", .description = "Load / Unload a suprx plugin", .arg_count = 2, .executor = &cmd_suprx},
     {.name = "vpk", .description = "Extract and Install a VPK", .arg_count = 1, .executor = &cmd_vpk_install},
     {.name = "ext_vpk", .description = "Install a VPK from a folder", .arg_count = 1, .executor = &cmd_ext_vpk_install},
     {.name = "rename", .description = "Rename a file", .arg_count = 2, .executor = &cmd_rename_file}
