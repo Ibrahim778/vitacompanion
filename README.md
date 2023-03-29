@@ -42,12 +42,26 @@ Note that you need to append a newline character to the command that you send. `
 
 ### Available commands
 
-Use the help command, you can also see include/command_definitions.h  
+Use the `help` command for usage information, you can also see include/command_definitions.h  
 See src/command_definitions.cpp for sauce or to add your own commands
+
+| Command   | Arguments     | Explanation                  |
+| --------- | ------------- | ---------------------------- |
+| `destroy` | none          | kill all running applications |
+| `launch`  | `<TITLEID>`   | launch an application by titleid (for system apps on vs0: it open livearea)|
+| `reboot`  | none          | reboot the console           |
+| `screen`  | `on` or `off` | turn screen on or off        |
+| `skprx`   | `<load|unload|find> <path|id|name>` | Load a kernel plugin from path, unload from id, or find ID by name using VCKernel|
+| `suprx`   | `<load|unload> <path|id>` | Load a shell plugin from path or unload by id |
+| `tai`     | `<load|unload> <path|id>`| Load a kernel plugin from path or unload from id using taihen|
+| `usb`     | `<mount|unmount> <device>` | Mount or unmount the vita's storage for usb transfer |
+| `self`    | `<path>` | Load a SELF file and run it |
+| `prom`    | `<path>` | Promote and install an application from folder |
+| `vpk`     | `<path>` | Extract and install an application from a VPK file |
 
 ### Kernel Plugin
 
-This fork of vitacompanion also provides an accompanying kernel plugin which is required for the following commands to function  
+This fork of vitacompanion also provides an accompanying kernel plugin (titled VCKernel) which is required for the following commands to function  
  - usb
  - self
  - skprx (tai command will work without it)  
