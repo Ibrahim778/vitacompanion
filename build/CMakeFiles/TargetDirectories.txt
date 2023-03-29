@@ -1,9 +1,0 @@
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/vitacompanion.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/vitacompanion.suprx.target.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/edit_cache.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/rebuild_cache.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/VCKernel/CMakeFiles/VCKernel.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/VCKernel/CMakeFiles/VCKernel.skprx.target.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/VCKernel/CMakeFiles/stubs.target.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/VCKernel/CMakeFiles/edit_cache.dir
-C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/VCKernel/CMakeFiles/rebuild_cache.dir
