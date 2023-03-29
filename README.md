@@ -51,10 +51,10 @@ See src/command_definitions.cpp for sauce or to add your own commands
 | `launch`  | `<TITLEID>`   | launch an application by titleid (for system apps on vs0: it open livearea)|
 | `reboot`  | none          | reboot the console           |
 | `screen`  | `on` or `off` | turn screen on or off        |
-| `skprx`   | `<load|unload|find> <path|id|name>` | Load a kernel plugin from path, unload from id, or find ID by name using VCKernel|
-| `suprx`   | `<load|unload> <path|id>` | Load a shell plugin from path or unload by id |
-| `tai`     | `<load|unload> <path|id>`| Load a kernel plugin from path or unload from id using taihen|
-| `usb`     | `<mount|unmount> <device>` | Mount or unmount the vita's storage for usb transfer |
+| `skprx`   | `<load,unload,find> <path,id,name>` | Load a kernel plugin from path, unload from id, or find ID by name using VCKernel|
+| `suprx`   | `<load,unload> <path,id>` | Load a shell plugin from path or unload by id |
+| `tai`     | `<load,unload> <path,id>`| Load a kernel plugin from path or unload from id using taihen|
+| `usb`     | `<mount,unmount> <device>` | Mount or unmount the vita's storage for usb transfer |
 | `self`    | `<path>` | Load a SELF file and run it |
 | `prom`    | `<path>` | Promote and install an application from folder |
 | `vpk`     | `<path>` | Extract and install an application from a VPK file |
