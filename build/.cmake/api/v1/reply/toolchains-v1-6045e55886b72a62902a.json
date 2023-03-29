@@ -1,0 +1,67 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "SNC",
+				"implicit" : 
+				{
+					"includeDirectories" : [],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/PSVITA/sdk/host_tools/build/bin/psp2snc.exe",
+				"version" : ""
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "SNC",
+				"implicit" : 
+				{
+					"includeDirectories" : [],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/PSVITA/sdk/host_tools/build/bin/psp2snc.exe",
+				"version" : ""
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"cc",
+				"cpp",
+				"cxx"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "SNC",
+				"implicit" : {},
+				"path" : "C:/PSVITA/sdk/host_tools/build/bin/vdsuite-emdc.exe",
+				"version" : ""
+			},
+			"language" : "EMD",
+			"sourceFileExtensions" : 
+			[
+				"emd"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

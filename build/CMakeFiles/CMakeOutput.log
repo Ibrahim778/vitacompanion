@@ -1,0 +1,70 @@
+The target system is: PSP2 - 0x03600000 - armv7-a
+The host system is: Windows - 10.0.19044 - AMD64
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/CMakeScratch/TryCompile-qt8c8v
+
+Run Build Command(s):C:/PROGRA~1/CMake/bin/ninja.exe cmTC_b64cc && [1/2] Building C object CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o
+PROCESS_IT('C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c', 'CF', 1)
+DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2cf64 -XYc=mixed+gnu_ext+c99 -Xhostarch=64 -DSN_TARGET_PSP2 --display_error_number --alternative_tokens -JC:\PSVITA\sdk/host_tools/build/include -JC:\PSVITA\sdk/target/include -JC:\PSVITA\sdk/target/include_common -D__SNC64__ -s CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o -d C:\Users\Ibrahim\AppData\Local\Temp/SNC6064_0.D -f "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c" "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c"
+Deleting C:\Users\Ibrahim\AppData\Local\Temp/SNC6064_0.D
+[2/2] Linking C executable cmTC_b64cc
+DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2ld -o cmTC_b64cc CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o
+
+
+
+Parsed C implicit include dir info from above output: rv=start
+  warn: unable to parse implicit include dirs!
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(psp2ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/CMakeScratch/TryCompile-qt8c8v]
+  ignore line: []
+  ignore line: [Run Build Command(s):C:/PROGRA~1/CMake/bin/ninja.exe cmTC_b64cc && [1/2] Building C object CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o]
+  ignore line: [PROCESS_IT('C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c'  'CF'  1)]
+  ignore line: [DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2cf64 -XYc=mixed+gnu_ext+c99 -Xhostarch=64 -DSN_TARGET_PSP2 --display_error_number --alternative_tokens -JC:\PSVITA\sdk/host_tools/build/include -JC:\PSVITA\sdk/target/include -JC:\PSVITA\sdk/target/include_common -D__SNC64__ -s CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o -d C:\Users\Ibrahim\AppData\Local\Temp/SNC6064_0.D -f "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c" "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCCompilerABI.c"]
+  ignore line: [Deleting C:\Users\Ibrahim\AppData\Local\Temp/SNC6064_0.D]
+  ignore line: [[2/2] Linking C executable cmTC_b64cc]
+  ignore line: [DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2ld -o cmTC_b64cc CMakeFiles\cmTC_b64cc.dir\CMakeCCompilerABI.c.o]
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/CMakeScratch/TryCompile-tx9ah5
+
+Run Build Command(s):C:/PROGRA~1/CMake/bin/ninja.exe cmTC_ab60c && [1/2] Building CXX object CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o
+PROCESS_IT('C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp', '               CPF', 1)
+DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2cf64 -XYc=cp-rtti-exceptions+bool+array_nd+wchar_t+tmplname+gnu_ext -Xhostarch=64 -DSN_TARGET_PSP2 --display_error_number --alternative_tokens -JC:\PSVITA\sdk/host_tools/build/include -JC:\PSVITA\sdk/target/include -JC:\PSVITA\sdk/target/include_common -D__SNC64__ -s CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o -d C:\Users\Ibrahim\AppData\Local\Temp/SNC9912_0.D -f "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp" "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp"
+Deleting C:\Users\Ibrahim\AppData\Local\Temp/SNC9912_0.D
+[2/2] Linking CXX executable cmTC_ab60c
+DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2ld -o cmTC_ab60c CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o
+
+
+
+Parsed CXX implicit include dir info from above output: rv=start
+  warn: unable to parse implicit include dirs!
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(psp2ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: C:/Users/Ibrahim/Documents/Projects/vitacompanion/build/CMakeFiles/CMakeScratch/TryCompile-tx9ah5]
+  ignore line: []
+  ignore line: [Run Build Command(s):C:/PROGRA~1/CMake/bin/ninja.exe cmTC_ab60c && [1/2] Building CXX object CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o]
+  ignore line: [PROCESS_IT('C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp'  '               CPF'  1)]
+  ignore line: [DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2cf64 -XYc=cp-rtti-exceptions+bool+array_nd+wchar_t+tmplname+gnu_ext -Xhostarch=64 -DSN_TARGET_PSP2 --display_error_number --alternative_tokens -JC:\PSVITA\sdk/host_tools/build/include -JC:\PSVITA\sdk/target/include -JC:\PSVITA\sdk/target/include_common -D__SNC64__ -s CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o -d C:\Users\Ibrahim\AppData\Local\Temp/SNC9912_0.D -f "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp" "C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeCXXCompilerABI.cpp"]
+  ignore line: [Deleting C:\Users\Ibrahim\AppData\Local\Temp/SNC9912_0.D]
+  ignore line: [[2/2] Linking CXX executable cmTC_ab60c]
+  ignore line: [DOING: C:/PSVITA/sdk/host_tools/build/bin/psp2ld -o cmTC_ab60c CMakeFiles\cmTC_ab60c.dir\CMakeCXXCompilerABI.cpp.o]
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+

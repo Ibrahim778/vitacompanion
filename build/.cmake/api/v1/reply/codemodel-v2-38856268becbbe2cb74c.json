@@ -1,0 +1,129 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3,
+						4
+					]
+				},
+				{
+					"build" : "VCKernel",
+					"jsonFile" : "directory-VCKernel-Debug-e2ccc63afb2b37f67693.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "VCKernel",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "vitacompanion",
+					"targetIndexes" : 
+					[
+						3,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "VCKernel",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "VCKernel::@17fdad3cb48c8e0f83c2",
+					"jsonFile" : "target-VCKernel-Debug-076fd2c273419526941d.json",
+					"name" : "VCKernel",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "VCKernel.skprx.target::@17fdad3cb48c8e0f83c2",
+					"jsonFile" : "target-VCKernel.skprx.target-Debug-9d20166b2d2c39ba92cd.json",
+					"name" : "VCKernel.skprx.target",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "stubs.target::@17fdad3cb48c8e0f83c2",
+					"jsonFile" : "target-stubs.target-Debug-191726a6e216f93d53f8.json",
+					"name" : "stubs.target",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vitacompanion::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vitacompanion-Debug-74574e68b6db7188d5ed.json",
+					"name" : "vitacompanion",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vitacompanion.suprx.target::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vitacompanion.suprx.target-Debug-4d1ea3c2dd91d466e0c7.json",
+					"name" : "vitacompanion.suprx.target",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Ibrahim/Documents/Projects/vitacompanion/build",
+		"source" : "C:/Users/Ibrahim/Documents/Projects/vitacompanion"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

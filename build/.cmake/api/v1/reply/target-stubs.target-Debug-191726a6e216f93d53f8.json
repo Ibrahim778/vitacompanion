@@ -1,0 +1,81 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"VDSuiteCreateStubs"
+		],
+		"files" : 
+		[
+			"C:/PSVITA/sdk/host_tools/build/cmake/Modules/VitaDevelopmentSuite.cmake",
+			"VCKernel/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 53,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 142,
+				"parent" : 1
+			}
+		]
+	},
+	"id" : "stubs.target::@17fdad3cb48c8e0f83c2",
+	"name" : "stubs.target",
+	"paths" : 
+	{
+		"build" : "VCKernel",
+		"source" : "VCKernel"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "build/VCKernel/CMakeFiles/stubs.target",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/VCKernel/CMakeFiles/stubs.target.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/VCKernel/stubs/libVCKernel_stub.a.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}
