@@ -194,7 +194,7 @@ void CMDTai(vector<string>& args, string &res_msg)
     }
     else if(args[1] == "unload")
     {
-        SceUID moduleID = (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 16);
+        SceUID moduleID = sce_paf_strncmp(args[2].c_str(), "0x", 2) == 0 ?  (SceUID)sce_paf_strtol(&args[2].c_str()[2], SCE_NULL, 16): (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 10);
         int moduleStop = SCE_OK;
         int res = taiStopUnloadKernelModule(moduleID, 0, SCE_NULL, 0, SCE_NULL, &moduleStop);
         if(res != SCE_OK)
