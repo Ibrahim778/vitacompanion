@@ -5,8 +5,8 @@
 
 SCE_CDECL_BEGIN
 
-SceVoid StartNet();
-SceVoid StopNet();
+void StartNet();
+void StopNet();
 
 SCE_CDECL_END
 

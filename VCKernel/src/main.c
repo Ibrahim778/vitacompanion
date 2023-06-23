@@ -8,19 +8,19 @@
 #include "print.h"
 #include "usb.h"
 
-extern SceInt32 VCKernelStopUSBMass();
+extern int VCKernelStopUSBMass();
 
 //Required for sceAppMgrLaunchAppByPath
 tai_hook_ref_t QafHookRef;
 SceUID         QafHookID = SCE_UID_INVALID_UID;
-SceInt32 SceQafMgrForDriver_7B14DC45_Patched()
+int SceQafMgrForDriver_7B14DC45_Patched()
 {
     return 1;
 }
 
 tai_hook_ref_t SysrootHookRef;
 SceUID         SysrootHookID = SCE_UID_INVALID_UID;
-SceInt32 SceSysrootForDriver_421EFC96_Patched()
+int SceSysrootForDriver_421EFC96_Patched()
 {
     return 0;
 }
@@ -34,7 +34,7 @@ SceUID VCKernelLoadStartKernelModule(uintptr_t path, uintptr_t sRes)
     char kPath[SCE_IO_MAX_PATH_LENGTH] = {0};
     sceKernelStrncpyFromUser(kPath, path, sizeof(kPath));
 
-    SceInt32 startRes = -1;
+    int startRes = -1;
     SceUID res = sceKernelLoadStartModule(kPath, 0, SCE_NULL, 0, SCE_NULL, &startRes);
 
     sceKernelCopyToUser(sRes, &startRes, sizeof(startRes));
@@ -44,13 +44,13 @@ SceUID VCKernelLoadStartKernelModule(uintptr_t path, uintptr_t sRes)
     return res;
 }
 
-SceInt32 VCKernelStopUnloadKernelModule(SceUID modid, uintptr_t res)
+int VCKernelStopUnloadKernelModule(SceUID modid, uintptr_t res)
 {
     unsigned state;
     ENTER_SYSCALL(state);
 
-    SceInt32 sRes = -1;
-    SceInt32 ret = sceKernelStopUnloadModule(modid, 0, SCE_NULL, 0, SCE_NULL, &sRes);
+    int sRes = -1;
+    int ret = sceKernelStopUnloadModule(modid, 0, SCE_NULL, 0, SCE_NULL, &sRes);
 
     sceKernelCopyToUser(res, &sRes, sizeof(sRes));
 
@@ -88,7 +88,7 @@ SceUID VCKernelLaunchSelfWithArgs(const char *path, const char *argp, size_t arg
     return ret;
 }
 
-SceInt32 module_start(SceSize args, ScePVoid argp)
+int module_start(SceSize args, ScePVoid argp)
 {
     print("[VCKernel] Started\n");    
     
@@ -127,7 +127,7 @@ SceInt32 module_start(SceSize args, ScePVoid argp)
     return SCE_KERNEL_START_SUCCESS;
 }
 
-SceInt32 module_stop(SceSize args, ScePVoid argp)
+int module_stop(SceSize args, ScePVoid argp)
 {
     print("[VCKernel] Stopped");
     taiHookReleaseForKernel(SysrootHookID, SysrootHookRef);

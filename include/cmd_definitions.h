@@ -3,7 +3,7 @@
 
 #include <paf.h>
 
-typedef void CMDExecutor(paf::vector<paf::string> args, paf::string &client_res);
+typedef void CMDExecutor(paf::vector<paf::string>& args, paf::string &client_res);
 
 typedef struct 
 {
@@ -14,19 +14,19 @@ typedef struct
     CMDExecutor *executor;
 } CMDDefinition;
 
-void CMDHelp(paf::vector<paf::string> args, paf::string &client_res);
-void CMDDestroy(paf::vector<paf::string> args, paf::string &client_res);
-void CMDLaunch(paf::vector<paf::string> args, paf::string &client_res);
-void CMDReboot(paf::vector<paf::string> args, paf::string &client_res);
-void CMDScreen(paf::vector<paf::string> args, paf::string &client_res);
-void CMDSelf(paf::vector<paf::string> args, paf::string &client_res);
-void CMDUSB(paf::vector<paf::string> args, paf::string &client_res);
-void CMDSkprx(paf::vector<paf::string> args, paf::string &client_res);
-void CMDSuprx(paf::vector<paf::string> args, paf::string &client_res);
-void CMDTai(paf::vector<paf::string> args, paf::string &res_msg);
-void CMDVPK(paf::vector<paf::string> args, paf::string &client_res);
-void CMDProm(paf::vector<paf::string> args, paf::string &res_msg);
-void CMDRename(paf::vector<paf::string> args, paf::string &client_res);
+void CMDHelp(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDDestroy(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDLaunch(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDReboot(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDScreen(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDSelf(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDUSB(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDSkprx(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDSuprx(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDTai(paf::vector<paf::string>& args, paf::string &res_msg);
+void CMDVPK(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDProm(paf::vector<paf::string>& args, paf::string &res_msg);
+void CMDRename(paf::vector<paf::string>& args, paf::string &client_res);
 
 const CMDDefinition *GetCMD(const char *name);
 

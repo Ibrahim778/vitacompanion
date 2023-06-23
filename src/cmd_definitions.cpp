@@ -20,12 +20,12 @@ extern "C" {
     SceUID   VCKernelLaunchSelfWithArgs(const char *path, const char *argp, size_t args);
     SceUID   VCKernelFindKernelModule(const char *uName);
     SceUID   VCKernelLoadStartKernelModule(const char *path, int *res);
-    SceInt32 VCKernelStopUnloadKernelModule(SceUID modid, int *res);
-    SceBool  VCKernelGetUSBStatus();
-    SceInt32 VCKernelStopUSBMass();
+    int VCKernelStopUnloadKernelModule(SceUID modid, int *res);
+    bool  VCKernelGetUSBStatus();
+    int VCKernelStopUSBMass();
 };
 
-SceBool g_InstallJobRunning = SCE_FALSE;
+bool g_InstallJobRunning = false;
 
 const CMDDefinition *GetCMD(const char *name)
 {
@@ -35,7 +35,7 @@ const CMDDefinition *GetCMD(const char *name)
     return SCE_NULL;
 }
 
-void CMDHelp(vector<string> args, string &res_msg)
+void CMDHelp(vector<string>& args, string &res_msg)
 {
     if(args.size() == 1)
     {
@@ -50,7 +50,7 @@ void CMDHelp(vector<string> args, string &res_msg)
         for(int i = 0; i < (sizeof(CMDDefinitions) / sizeof(CMDDefinitions[0])); i++)
         {
             paf::string buff;
-            common::string_util::setf(buff, "%-*s\t\t%s\n", longestOut, CMDDefinitions[i].name, CMDDefinitions[i].description);
+            buff = common::FormatString("%-*s\t\t%s\n", longestOut, CMDDefinitions[i].name, CMDDefinitions[i].description);
             res_msg += buff;
         }
         return;
@@ -59,20 +59,20 @@ void CMDHelp(vector<string> args, string &res_msg)
     const CMDDefinition *cmdInfo = GetCMD(args[1].c_str());
     if(cmdInfo == SCE_NULL)
     {
-        common::string_util::setf(res_msg, "[Error] Command %s not found!\n", args[1].c_str());
+        res_msg = common::FormatString("[Error] Command %s not found!\n", args[1].c_str());
         return;
     }
 
-    common::string_util::setf(res_msg, "%s\t\t%s\n%s\n", cmdInfo->name, cmdInfo->description, cmdInfo->usage);
+    res_msg = common::FormatString("%s\t\t%s\n%s\n", cmdInfo->name, cmdInfo->description, cmdInfo->usage);
 }
 
-void CMDDestroy(vector<string> args, string &res_msg)
+void CMDDestroy(vector<string>& args, string &res_msg)
 {
     sceAppMgrDestroyOtherApp();
     res_msg = "Apps Destroyed.\n";
 }
 
-void CMDLaunch(vector<string> args, string &res_msg)
+void CMDLaunch(vector<string>& args, string &res_msg)
 {
     if(VCKernelGetUSBStatus())
     {
@@ -88,25 +88,25 @@ void CMDLaunch(vector<string> args, string &res_msg)
     }
 
     string uri;
-    common::string_util::setf(uri, "psgm:play?titleid=%s", args[1]);
+    uri = common::FormatString("psgm:play?titleid=%s", args[1]);
     
-    SceInt32 ret = sceAppMgrLaunchAppByUri(0x20000, uri.c_str());
+    int ret = sceAppMgrLaunchAppByUri(0x20000, uri.c_str());
     if(ret != SCE_OK)
     {
-        common::string_util::setf(res_msg, "[Error] Unable to launch app 0x%X (Is the TitleID correct?)\n", ret);
+        res_msg = common::FormatString("[Error] Unable to launch app 0x%X (Is the TitleID correct?)\n", ret);
         return;
     }
 
     res_msg = "Launched.\n";
 }
 
-void CMDReboot(vector<string> args, string &res_msg)
+void CMDReboot(vector<string>& args, string &res_msg)
 {
     scePowerRequestColdReset();
     res_msg = "Rebooting...\n";
 }
 
-void CMDScreen(vector<string> args, string &res_msg)
+void CMDScreen(vector<string>& args, string &res_msg)
 {
     if(args[1] == "on")
     {
@@ -124,13 +124,13 @@ void CMDScreen(vector<string> args, string &res_msg)
     }
 }
 
-void CMDSelf(vector<string> args, string &res_msg)
+void CMDSelf(vector<string>& args, string &res_msg)
 {
     SceUID ret = VCKernelLaunchSelfWithArgs(args[1].c_str(), SCE_NULL, 0);
-    common::string_util::setf(res_msg, "Result Code: 0x%X\n", ret);
+    res_msg = common::FormatString("Result Code: 0x%X\n", ret);
 }
 
-void CMDUSB(vector<string> args, string &res_msg)
+void CMDUSB(vector<string>& args, string &res_msg)
 {
     if(g_InstallJobRunning)
     {
@@ -155,15 +155,15 @@ void CMDUSB(vector<string> args, string &res_msg)
         const USBDevice *dev = GetUSBDeviceFromID(args[2].c_str());
         if(!dev)
         {
-            common::string_util::setf(res_msg, "[Error] %s is not a valid ID!\n", args[2].c_str());
+            res_msg = common::FormatString("[Error] %s is not a valid ID!\n", args[2].c_str());
             return;
         }
         
         int ret = MountUSBDevice(dev);
         if(ret < 0)
-            common::string_util::setf(res_msg, "[Error] Failed to mount %s -> 0x%X\n", dev->name, ret);
+            res_msg = common::FormatString("[Error] Failed to mount %s -> 0x%X\n", dev->name, ret);
         else
-            common::string_util::setf(res_msg, "%s Mounted Successfully\n", dev->name);
+            res_msg = common::FormatString("%s Mounted Successfully\n", dev->name);
     }
     else if (sce_paf_strncmp(args[1].c_str(), "unmount", 7) == 0)
     {
@@ -175,12 +175,12 @@ void CMDUSB(vector<string> args, string &res_msg)
 
         int ret = UnmountUSBDevice();
         if(ret < 0)
-            common::string_util::setf(res_msg, "[Error] Failed to unmount 0x%X\n", ret);
+            res_msg = common::FormatString("[Error] Failed to unmount 0x%X\n", ret);
         else res_msg = "Unmounted successfully\n";
     }
 }
 
-void CMDTai(vector<string> args, string &res_msg)
+void CMDTai(vector<string>& args, string &res_msg)
 {
     if(args[1] == "load")
     {
@@ -189,23 +189,23 @@ void CMDTai(vector<string> args, string &res_msg)
             res_msg = "[Error] File not found.\n";
             return;
         }
-        SceInt32 res = taiLoadStartKernelModule(args[2].c_str(), 0, SCE_NULL, 0);
-        common::string_util::setf(res_msg, "Started successfully. UID: 0x%X\n", res);
+        int res = taiLoadStartKernelModule(args[2].c_str(), 0, SCE_NULL, 0);
+        res_msg = common::FormatString("Started successfully. UID: 0x%X\n", res);
     }
     else if(args[1] == "unload")
     {
         SceUID moduleID = (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 16);
-        SceInt32 moduleStop = SCE_OK;
-        SceInt32 res = taiStopUnloadKernelModule(moduleID, 0, SCE_NULL, 0, SCE_NULL, &moduleStop);
+        int moduleStop = SCE_OK;
+        int res = taiStopUnloadKernelModule(moduleID, 0, SCE_NULL, 0, SCE_NULL, &moduleStop);
         if(res != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] taiStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleID, res);
+            res_msg = common::FormatString("[Error] taiStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleID, res);
             return;
         }
 
         if(moduleStop != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] module_stop -> 0x%X taiStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
+            res_msg = common::FormatString("[Error] module_stop -> 0x%X taiStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
             return;
         }
 
@@ -214,7 +214,7 @@ void CMDTai(vector<string> args, string &res_msg)
     else res_msg = "[Error] Argument 1 should be \"load\", or \"unload\"";
 }
 
-void CMDSkprx(vector<string> args, string &res_msg)
+void CMDSkprx(vector<string>& args, string &res_msg)
 {
     if(args[1] == "load")
     {
@@ -223,36 +223,36 @@ void CMDSkprx(vector<string> args, string &res_msg)
             res_msg = "[Error] File not found.\n";
             return;
         }
-        SceInt32 moduleStart = SCE_OK;
-        SceInt32 res = VCKernelLoadStartKernelModule(args[2].c_str(), &moduleStart);
+        int moduleStart = SCE_OK;
+        int res = VCKernelLoadStartKernelModule(args[2].c_str(), &moduleStart);
         if(res != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] VCKernelLoadStartKernelModule(%s) -> 0x%X\n", args[2].c_str(), res);
+            res_msg = common::FormatString("[Error] VCKernelLoadStartKernelModule(%s) -> 0x%X\n", args[2].c_str(), res);
             return;
         }
 
         if(moduleStart != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] module_start -> 0x%X VCKernelStopUnloadKernelModule(%s) -> 0x%X\n", moduleStart, args[2].c_str(), res);
+            res_msg = common::FormatString("[Error] module_start -> 0x%X VCKernelStopUnloadKernelModule(%s) -> 0x%X\n", moduleStart, args[2].c_str(), res);
             return;
         }
         
-        common::string_util::setf(res_msg, "Started successfully. UID: 0x%X module_start: 0x%X\n", res, moduleStart);
+        res_msg = common::FormatString("Started successfully. UID: 0x%X module_start: 0x%X\n", res, moduleStart);
     }
     else if(args[1] == "unload")
     {
-        SceUID moduleID = (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 16);
-        SceInt32 moduleStop = SCE_OK;
-        SceInt32 res = VCKernelStopUnloadKernelModule(moduleID, &moduleStop);
+        SceUID moduleID = sce_paf_strncmp(args[2].c_str(), "0x", 2) == 0 ?  (SceUID)sce_paf_strtol(&args[2].c_str()[2], SCE_NULL, 16): (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 10);
+        int moduleStop = SCE_OK;
+        int res = VCKernelStopUnloadKernelModule(moduleID, &moduleStop);
         if(res != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] VCKernelStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleID, res);
+            res_msg = common::FormatString("[Error] VCKernelStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleID, res);
             return;
         }
 
         if(moduleStop != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] module_stop -> 0x%X VCKernelStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
+            res_msg = common::FormatString("[Error] module_stop -> 0x%X VCKernelStopUnloadKernelModule(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
             return;
         }
 
@@ -264,15 +264,15 @@ void CMDSkprx(vector<string> args, string &res_msg)
         SceUID id = _vshKernelSearchModuleByName(args[2].c_str(), &unk);
         if(id < 0)
         {
-            common::string_util::setf(res_msg, "[Error] Could not find module with name \"%s\" -> 0x%X\n", args[2].c_str(), id);
+            res_msg = common::FormatString("[Error] Could not find module with name \"%s\" -> 0x%X\n", args[2].c_str(), id);
             return;
         }
-        common::string_util::setf(res_msg, "Module \"%s\" found with ID: 0x%X\n", args[2].c_str(), id);
+        res_msg = common::FormatString("Module \"%s\" found with ID: 0x%X\n", args[2].c_str(), id);
     }
     else res_msg = "[Error] Argument 1 should be \"load\",\"find\" or \"unload\"";
 }
 
-void CMDSuprx(vector<string> args, string &res_msg)
+void CMDSuprx(vector<string>& args, string &res_msg)
 {
     if(args[1] == "load")
     {
@@ -281,24 +281,24 @@ void CMDSuprx(vector<string> args, string &res_msg)
             res_msg = "[Error] File not found.\n";
             return;
         }
-        SceInt32 loadRes = SCE_OK;
-        SceInt32 res = sceKernelLoadStartModule(args[2].c_str(), 0, SCE_NULL, 0, SCE_NULL, &loadRes);
-        common::string_util::setf(res_msg, "Started successfully. UID: 0x%X module_start: 0x%X\n", res, loadRes);
+        int loadRes = SCE_OK;
+        int res = sceKernelLoadStartModule(args[2].c_str(), 0, SCE_NULL, 0, SCE_NULL, &loadRes);
+        res_msg = common::FormatString("Started successfully. UID: 0x%X module_start: 0x%X\n", res, loadRes);
     }
     else if(args[1] == "unload")
     {
-        SceUID moduleID = (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 10);
-        SceInt32 moduleStop = SCE_OK;
-        SceInt32 res = sceKernelStopUnloadModule(moduleID, 0, SCE_NULL, 0, SCE_NULL, &moduleStop);
+        SceUID moduleID = sce_paf_strncmp(args[2].c_str(), "0x", 2) == 0 ?  (SceUID)sce_paf_strtol(&args[2].c_str()[2], SCE_NULL, 16): (SceUID)sce_paf_strtol(args[2].c_str(), SCE_NULL, 10);
+        int moduleStop = SCE_OK;
+        int res = sceKernelStopUnloadModule(moduleID, 0, SCE_NULL, 0, SCE_NULL, &moduleStop);
         if(res != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] sceKernelStopUnload(0x%X) -> 0x%X\n", moduleID, res);
+            res_msg = common::FormatString("[Error] sceKernelStopUnload(0x%X) -> 0x%X\n", moduleID, res);
             return;
         }
 
         if(moduleStop != SCE_OK)
         {
-            common::string_util::setf(res_msg, "[Error] module_stop -> 0x%X sceKernelStopUnload(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
+            res_msg = common::FormatString("[Error] module_stop -> 0x%X sceKernelStopUnload(0x%X) -> 0x%X\n", moduleStop, moduleID, res);
             return;
         }
 
@@ -307,15 +307,15 @@ void CMDSuprx(vector<string> args, string &res_msg)
     else res_msg = "[Error] Argument 1 should be \"load\" or \"unload\"";
 }
 
-void ExtractCB(SceUInt current, SceUInt total)
+void ExtractCB(const char *name, ::uint64_t current, ::uint64_t total, void *pUserData)
 {
-    SceFloat32 progPercent = ((SceFloat32)current / (SceFloat32)total) * 80.0f;
-    ui::ProgressBar *prog = (ui::ProgressBar *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::WidgetType::WidgetType_Progressbar);
+    float progPercent = ((float)current / (float)total) * 80.0f;
+    ui::ProgressBar *prog = (ui::ProgressBar *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::REGISTER_ID_PROGRESSBAR);
     if(prog)
-        prog->SetProgress(progPercent, 0, 0);
+        prog->SetValueAsync(progPercent);
 }
 
-void CMDVPK(vector<string> args, string &res_msg)
+void CMDVPK(vector<string>& args, string &res_msg)
 {
     if(g_InstallJobRunning)
     {
@@ -332,27 +332,28 @@ void CMDVPK(vector<string> args, string &res_msg)
     Plugin *topmenu_plugin = Plugin::Find("topmenu_plugin");
     if(!paf::LocalFile::Exists(args[1].c_str()))
     {
-        res_msg = "[Error] File not found\n";
+        res_msg = common::FormatString("[Error] File %s not found\n", args[1].c_str());
         return;
     }
 
-    g_InstallJobRunning = SCE_TRUE;
+    g_InstallJobRunning = true;
     dialog::OpenProgress(topmenu_plugin, L"Installing App", L"Extracting");
     paf::Dir::RemoveRecursive(PROM_DIR);
-
-    Zipfile zFile = Zipfile(args[1]);
-    SceInt32 result = zFile.Unzip(PROM_DIR, ExtractCB);
+    print("Creating zfile...\n");
+    auto zFile = CompressedFile::Create(args[1]);
+    print("zFile created\n");
+    int result = zFile->Decompress(PROM_DIR, ExtractCB, nullptr);
 
     if(result < 0)
     {
         dialog::Close();
         dialog::OpenError(topmenu_plugin, result, L"Error extracting archive");
-        common::string_util::setf(res_msg, "[Error] Could not extract archive 0x%X\n", result);
-        g_InstallJobRunning = SCE_FALSE;
+        res_msg = common::FormatString("[Error] Could not extract archive 0x%X\n", result);
+        g_InstallJobRunning = false;
         return;
     }
-    ui::Text *txt = (ui::Text *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::WidgetType::WidgetType_TextMessage1);
-    txt->SetLabel(&paf::wstring(L"Promoting"));
+    ui::Text *txt = (ui::Text *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::REGISTER_ID_TEXT_MESSAGE_1);
+    txt->SetString(L"Promoting");
     //Promote and set progress, then close
     paf::Dir::RemoveRecursive("ux0:temp/new");
     paf::Dir::RemoveRecursive("ux0:appmeta/new");
@@ -369,8 +370,8 @@ void CMDVPK(vector<string> args, string &res_msg)
     {
         dialog::Close();
         dialog::OpenError(topmenu_plugin, result, L"Error promoting folder");
-        common::string_util::setf(res_msg, "[Error] Could not promote folder 0x%X\n", result);
-        g_InstallJobRunning = SCE_FALSE;
+        res_msg = common::FormatString("[Error] Could not promote folder 0x%X\n", result);
+        g_InstallJobRunning = false;
         return;
     }
 
@@ -386,14 +387,14 @@ void CMDVPK(vector<string> args, string &res_msg)
     paf::Dir::RemoveRecursive("ur0:temp/promote");
     paf::Dir::RemoveRecursive("ur0:temp/game");
 
-    ui::ProgressBar *prog = (ui::ProgressBar *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::WidgetType::WidgetType_Progressbar);
-    prog->SetProgress(100.0f, 0, 0);
+    ui::ProgressBar *prog = (ui::ProgressBar *)sce::CommonGuiDialog::Dialog::GetWidget(dialog::Current(), sce::CommonGuiDialog::REGISTER_ID_PROGRESSBAR);
+    prog->SetValueAsync(100.0f);
     dialog::Close();
-    g_InstallJobRunning = SCE_FALSE;
+    g_InstallJobRunning = false;
     res_msg = "App installed successfully!\n";
 }
 
-void CMDProm(vector<string> args, string &res_msg)
+void CMDProm(vector<string>& args, string &res_msg)
 {
     if(g_InstallJobRunning)
     {
@@ -414,7 +415,7 @@ void CMDProm(vector<string> args, string &res_msg)
         return;
     }
 
-    g_InstallJobRunning = SCE_TRUE;
+    g_InstallJobRunning = true;
     dialog::OpenPleaseWait(topmenu_plugin, SCE_NULL, L"Promoting Folder...");
     
     paf::Dir::RemoveRecursive("ux0:temp/new");
@@ -427,13 +428,13 @@ void CMDProm(vector<string> args, string &res_msg)
     paf::Dir::RemoveRecursive("ur0:temp/promote");
     paf::Dir::RemoveRecursive("ur0:temp/game");
 
-    SceInt32 result = promoteApp(args[1].c_str());
+    int result = promoteApp(args[1].c_str());
     if(result < 0)
     {
         dialog::Close();
         dialog::OpenError(topmenu_plugin, result, L"Error promoting folder");
-        common::string_util::setf(res_msg, "[Error] Could not promote folder 0x%X\n", result);
-        g_InstallJobRunning = SCE_FALSE;
+        res_msg = common::FormatString("[Error] Could not promote folder 0x%X\n", result);
+        g_InstallJobRunning = false;
         return;
     }
 
@@ -450,21 +451,21 @@ void CMDProm(vector<string> args, string &res_msg)
     paf::Dir::RemoveRecursive("ur0:temp/game");
 
     dialog::Close();
-    g_InstallJobRunning = SCE_FALSE;
+    g_InstallJobRunning = false;
     res_msg = "App installed successfully!\n";
 }
 
-void CMDRename(vector<string> args, string &res_msg)
+void CMDRename(vector<string>& args, string &res_msg)
 {
     if(!LocalFile::Exists(args[1].c_str()))
     {
         res_msg = "[Error] File doesn't exist.\n";
         return;
     }
-    SceInt32 res = sceIoRename(args[1].c_str(), args[2].c_str());
+    int res = sceIoRename(args[1].c_str(), args[2].c_str());
     if(res != SCE_OK)
     {
-        common::string_util::setf(res_msg, "[Error] Couldn't rename 0x%X.\n", res);
+        res_msg = common::FormatString("[Error] Couldn't rename 0x%X.\n", res);
         return;
     }
     res_msg = "Done.\n";

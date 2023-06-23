@@ -9,8 +9,8 @@ extern int (*_sceUsbstorVStorStop)(void);
 extern int (*_sceUsbstorVStorSetImgFilePath)(const char *path);
 extern int (*_sceUsbstorVStorSetDeviceInfo)(const char *name, const char *version);
 
-SceInt32 PatchUSB();
-SceInt32 ReleaseUSBPatches();
+int PatchUSB();
+int ReleaseUSBPatches();
 
 #endif
  

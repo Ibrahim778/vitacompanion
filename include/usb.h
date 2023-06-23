@@ -38,7 +38,7 @@ const USBDevice usbDevices[] = {
     }
 };
 
-SceVoid MountUSBDeviceFromUser();
+void MountUSBDeviceFromUser();
 const USBDevice *GetUSBDeviceFromID(const char *id);
 
 SceUID MountUSBDevice(const USBDevice *path);

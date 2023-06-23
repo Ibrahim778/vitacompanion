@@ -8,8 +8,8 @@ SCE_CDECL_BEGIN
 #define CMD_PORT 1338
 #define ARG_MAX (20)
 
-SceVoid CMDStart();
-SceVoid CMDStop();
+void CMDStart();
+void CMDStop();
 
 SCE_CDECL_END
 

@@ -13,8 +13,8 @@
 using namespace paf;
 
 extern "C" {
-    SceInt32 VCKernelStartUSBMass(const char *device);
-    SceInt32 VCKernelStopUSBMass();
+    int VCKernelStartUSBMass(const char *device);
+    int VCKernelStopUSBMass();
 }
 
 int checkFileExist(const char *file)
@@ -43,9 +43,9 @@ const USBDevice *GetUSBDeviceFromID(const char *id)
     return SCE_NULL;
 }
 
-SceInt32 UnmountUSBDevice()
+int UnmountUSBDevice()
 {
-    SceInt32 res = SCE_OK;
+    int res = SCE_OK;
     // Stop USB storage
     res = VCKernelStopUSBMass();
     if (res < 0)
@@ -81,7 +81,7 @@ void USBDialogCB(dialog::ButtonCode button, void *pUserData)
 
 SceUID MountUSBDevice(const USBDevice *pInfo)
 {
-    SceInt32 res = SCE_OK;
+    int res = SCE_OK;
     const char *dev = SCE_NULL;
 
     if(checkFileExist(pInfo->first))
@@ -104,52 +104,43 @@ SceUID MountUSBDevice(const USBDevice *pInfo)
     return res;
 }
 
-SceVoid ListButtonCB(SceInt32 eventID, ui::Widget *self, SceInt32 unk, ScePVoid pUserData)
+void ListButtonCB(int eventID, ui::Handler *handler, ui::Event *evt, void *pUserData)
 {
-    const USBDevice *pDevice = (USBDevice *)self->elem.hash;
+    auto widget = (ui::Widget *)handler;
+    const USBDevice *pDevice = (USBDevice *)widget->GetName().GetIDHash();
 
     dialog::Close();
-    SceInt32 mRes = MountUSBDevice(pDevice);
+    int mRes = MountUSBDevice(pDevice);
     print("0x%X %s\n", mRes, pDevice->name);
 }
 
-SceVoid MountUSBDeviceFromUser()
+void MountUSBDeviceFromUser()
 {
-    rco::Element e;
     Plugin *topmenu_plugin = Plugin::Find("topmenu_plugin");
     ui::ScrollView *sv = (ui::ScrollView *)dialog::OpenScrollView(topmenu_plugin, L"Select Device");
     if(!sv)
         return;
     
-    e.hash = 0x2822454f; // _common_texture_list_70px
-    graph::Surface *tex = SCE_NULL;
-    Plugin::GetTexture(&tex, topmenu_plugin, &e);
-
-    e.hash = 0x19BC95D;
-    ui::Box *box = (ui::Box *)sv->GetChild(&e, 0);
+    auto tex = topmenu_plugin->GetTexture("_common_texture_list_70px");
     
-    rco::Element styleHash;
-    styleHash.hash = 0xb9fbcf7d; // _common_default_style_button
-
+    ui::Box *box = (ui::Box *)sv->FindChild(0x19BC95D);
+    
     for (unsigned int i = 0; i < sizeof(usbDevices) / sizeof(usbDevices[0]); i++)
     {
         if (checkFileExist(usbDevices[i].first) || checkFileExist(usbDevices[i].second)) // Apparently paf::LocalFile::Exist fails to find these paths?
         {
-            ui::EventCallback *cb = new ui::EventCallback();
-            cb->eventHandler = ListButtonCB;
 
-            e.hash = (SceUInt32)&usbDevices[i];
-            ui::Button *button = (ui::Button *)topmenu_plugin->CreateWidgetWithStyle(box, "button", &e, &styleHash);
+            ui::Button *button = (ui::Button *)topmenu_plugin->CreateWidget(box, "button", (SceUInt32)&usbDevices[i], "_common_default_style_button");
 
-            button->SetSize(&paf::Vector4(760, 70));
-            button->SetSurfaceBase(&tex);
+            button->SetSize(760, 70, 0, 0);
+            button->SetTexture(tex);
             button->SetAdjust(1,1,0);
             
             wstring txt16;
             common::Utf8ToUtf16(usbDevices[i].name, &txt16);
-            button->SetLabel(&txt16);
+            button->SetString(txt16);
 
-            button->RegisterEventCallback(ui::EventMain_Decide, cb);
+            button->AddEventCallback(ui::Button::CB_BTN_DECIDE, ListButtonCB);
         }
     }
 }

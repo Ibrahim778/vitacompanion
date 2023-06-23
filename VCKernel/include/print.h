@@ -4,7 +4,7 @@
 #ifdef _DEBUG
     #define print(...) sceDebugPrintf(__VA_ARGS__)
 #else
-    #define print(x) {(void)SCE_NULL;}
+    #define print(...) {(void)SCE_NULL;}
 #endif
 
 #endif

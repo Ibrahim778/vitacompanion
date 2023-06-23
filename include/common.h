@@ -3,9 +3,9 @@
 
 #include <kernel.h>
 
-extern SceBool PluginUp;
-extern SceBool IsUp;
-extern SceBool NetConnected;
+extern bool PluginUp;
+extern bool IsUp;
+extern bool NetConnected;
 
 
 #endif

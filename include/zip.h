@@ -1,23 +1,30 @@
 #ifndef _ZIP_H_
 #define _ZIP_H_
 
-#include <kernel.h>
 #include <paf.h>
+#include <kernel.h>
 
-#include <minizip/unzip.h>
+#include "compressed_file.h"
+#include "minizip/unzip.h"
 
-class Zipfile {
+class Zipfile : public CompressedFile
+{
 public:
-	Zipfile(const paf::string zip_path);
+    enum 
+    {
+        ZIP_CUNK_SIZE = SCE_KERNEL_128KiB
+    };
+
+	Zipfile(const paf::string filePath);
 	~Zipfile();
 
-	int Unzip(const paf::string outpath, void (*progressCB)(SceUInt curr, SceUInt total));
-	int UncompressedSize();
-
+	virtual int Decompress(const paf::string outPath, ProgressCallback progressCB, void *progressData) override;
+	virtual int CalculateUncompressedSize() override;
+    
 private:
-	unzFile zipfile_;
-	uint64_t uncompressed_size_ = 0;
-	unz_global_info global_info_;
+	unzFile handle;
+	unz_global_info globalInfo;
+    char *readBuff;
 };
 
 #endif //_ZIP_H_

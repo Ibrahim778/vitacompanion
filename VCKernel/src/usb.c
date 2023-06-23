@@ -13,7 +13,7 @@ int (*_sceUsbstorVStorStop)(void) = SCE_NULL;
 int (*_sceUsbstorVStorSetImgFilePath)(const char *path) = SCE_NULL;
 int (*_sceUsbstorVStorSetDeviceInfo)(const char *name, const char *version) = SCE_NULL;
 
-SceBool usbActivated = SCE_FALSE;
+bool usbActivated = false;
 
 SceUID hooks[3] = {SCE_UID_INVALID_UID};
 
@@ -22,7 +22,7 @@ tai_hook_ref_t sceIoReadRef;
 
 char device[0x20] = {0};
 
-SceInt32 g_USBResult = SCE_OK;
+int g_USBResult = SCE_OK;
 
 int first = 0;
 SceUID sceIoOpenPatched(const char *file, int flags, SceMode mode) 
@@ -59,12 +59,12 @@ int sceIoReadPatched(SceUID fd, void *data, SceSize size)
     return res;
 }
 
-SceBool VCKernelGetUSBStatus()
+bool VCKernelGetUSBStatus()
 {
     return usbActivated;
 }
 
-SceInt32 PatchUSB()
+int PatchUSB()
 {
     tai_module_info_t vstorInfo;
     vstorInfo.size = sizeof(vstorInfo);
@@ -93,7 +93,7 @@ SceInt32 PatchUSB()
     return SCE_OK;
 }
 
-SceInt32 ReleaseUSBPatches()
+int ReleaseUSBPatches()
 {
     if(hooks[2] > 0)
         taiHookReleaseForKernel(hooks[2], sceIoReadRef);
@@ -107,12 +107,12 @@ SceInt32 ReleaseUSBPatches()
     return SCE_OK; // This should never fail lol
 }
 
-SceInt32 USBStartThread(SceSize args, void *argp)
+int USBStartThread(SceSize args, void *argp)
 {
     PatchUSB();
     sceUdcdStopCurrentInternal(2);
 
-    SceInt32 ret = SCE_OK;
+    int ret = SCE_OK;
 
     ret = _sceUsbstorVStorSetDeviceInfo("\"PS Vita\" MC", "1.00");
     if(ret < 0)
@@ -136,7 +136,7 @@ SceInt32 USBStartThread(SceSize args, void *argp)
         goto EXIT;
     }
 
-    usbActivated = SCE_TRUE;
+    usbActivated = true;
 
 EXIT:
     if(ret < 0)
@@ -145,7 +145,7 @@ EXIT:
     return sceKernelExitDeleteThread(0);
 }
 
-SceInt32 VCKernelStartUSBMass(uintptr_t pDevice)
+int VCKernelStartUSBMass(uintptr_t pDevice)
 {
     if(usbActivated)
         return -2;
@@ -177,7 +177,7 @@ EXIT:
     return ret;
 }
 
-SceInt32 VCKernelStopUSBMass()
+int VCKernelStopUSBMass()
 {
     if(!usbActivated)
         return -2;
@@ -194,7 +194,7 @@ SceInt32 VCKernelStopUSBMass()
     if(ret < 0) 
         goto EXIT;
 
-    usbActivated = SCE_FALSE;
+    usbActivated = false;
     ret = sceIoSync(device, 0);
 
 EXIT:

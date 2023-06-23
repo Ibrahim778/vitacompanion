@@ -19,7 +19,7 @@ extern "C" {
     SceUID   _vshKernelSearchModuleByName(const char *name, SceUInt64 *buff);
 };
 
-extern SceBool PluginUp;
+extern bool PluginUp;
 
 inline void MakeWidgetWithProperties(const char *refID, const char *parentRefID, QMRWidgetType type, float posX, float posY, float sizeX, float sizeY, float colR, float colG, float colB, float colA, const char *label)
 {
@@ -31,7 +31,7 @@ inline void MakeWidgetWithProperties(const char *refID, const char *parentRefID,
         QuickMenuRebornSetWidgetLabel(refID, label);
 }
 
-void OnCheckboxPressed(const char *id, SceInt32 hash, SceInt32 evtID, void *pUserData)
+void OnCheckboxPressed(const char *id, int hash, int evtID, void *pUserData)
 {
     PluginUp = QuickMenuRebornGetCheckboxValue(checkbox_id);
     
@@ -41,13 +41,13 @@ void OnCheckboxPressed(const char *id, SceInt32 hash, SceInt32 evtID, void *pUse
         StartNet();
 }
 
-void USBButtonPressed(const char *id, SceInt32 hash, SceInt32 evtID, void *pUserData)
+void USBButtonPressed(const char *id, int hash, int evtID, void *pUserData)
 {
     QuickMenuRebornCloseMenu();
     MountUSBDeviceFromUser();
 }
 
-SceVoid DisplayWidgets()
+void DisplayWidgets()
 {
     QuickMenuRebornSeparator(separator_id, SCE_SEPARATOR_HEIGHT);
     

@@ -4,7 +4,9 @@
 
 #include "ftpvita.h"
 
-#include <paf/stdc.h>
+#include <paf/std/stdio.h>
+#include <paf/std/stdlib.h>
+#include <paf/std/string.h>
 #include <net.h>
 #include <libnetctl.h>
 #include <rtc.h>

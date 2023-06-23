@@ -23,12 +23,14 @@ namespace dialog
 
 	typedef void(*EventHandler)(ButtonCode buttonCode, ScePVoid pUserArg);
 
+    int Current();
+
 	SceVoid OpenPleaseWait(Plugin *workPlugin, const wchar_t *titleText, const wchar_t *messageText, SceBool withCancel = SCE_FALSE, EventHandler eventHandler= SCE_NULL, ScePVoid userArg = SCE_NULL);
 
 	SceVoid OpenYesNo(Plugin *workPlugin, const wchar_t *titleText, const wchar_t *messageText, EventHandler eventHandler = SCE_NULL, ScePVoid userArg = SCE_NULL);
 
 	SceVoid OpenOk(Plugin *workPlugin, const wchar_t *titleText, const wchar_t *messageText, EventHandler eventHandler = SCE_NULL, ScePVoid userArg = SCE_NULL);
-	
+
     SceVoid OpenProgress(Plugin *workPlugin, const wchar_t *titleText, const wchar_t *messageText, EventHandler eventHandler = SCE_NULL, ScePVoid userArg = SCE_NULL);
 
 	SceVoid OpenError(Plugin *workPlugin, SceInt32 errorCode, const wchar_t *messageText = SCE_NULL, EventHandler eventHandler = SCE_NULL, ScePVoid userArg = SCE_NULL);
@@ -64,10 +66,8 @@ namespace dialog
 		EventHandler eventHandler = SCE_NULL,
 		ScePVoid userArg = SCE_NULL);
 
-	ui::Dialog *OpenBlank(Plugin *workPlugin);
+	SceVoid Close();
 
-    SceVoid Close();
-    SceInt32 Current();
 	SceVoid WaitEnd();
 };
 

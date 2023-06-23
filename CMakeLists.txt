@@ -27,18 +27,26 @@ add_library(${PROJECT_NAME} MODULE
     include/dialog.h
     include/usb.h
     include/widgets.h
+    include/compressed_file.h
 
-    src/netmgr.c
+    src/netmgr.cpp
     src/main.cpp
     src/ftpvita.c
     src/cmd.cpp
     src/cmd_definitions.cpp
     src/zip.cpp
+    src/compressed_file.cpp
     src/promote.c
     src/sha1.c
     src/dialog.cpp
     src/usb.cpp
     src/widgets.cpp
+    src/libc2paf.c
+
+    # minizip
+    src/minizip/unzip.c
+    src/minizip/ioapi.c
+    src/minizip/zip.c
 
     ${PROJECT_NAME}.emd
 )
@@ -93,8 +101,8 @@ target_link_libraries(${PROJECT_NAME}
     taihen_stub
     taihenUnsafe_stub
     SceMtpIf_stub
-    minizip
     QuickMenuReborn_stub_weak
+    z
 )
 
 VDSuiteSignElf(${PROJECT_NAME}.suprx ${PROJECT_NAME})

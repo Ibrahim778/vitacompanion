@@ -10,8 +10,9 @@
 SceUID      CMDThreadID = SCE_UID_INVALID_UID;
 SceNetId    CMDSocketID = SCE_UID_INVALID_UID;
 
-SceVoid CMDHandle(char *cmd, size_t size, paf::string &res_msg)
+void CMDHandle(char *cmd, size_t size, paf::string &res_msg)
 {
+    print("Reached CMDHandle!\n");
     paf::vector <paf::string>args;
     
     char *prevBegin = cmd;
@@ -24,7 +25,7 @@ SceVoid CMDHandle(char *cmd, size_t size, paf::string &res_msg)
         }
     }
 
-    // Now allow for argumetns encapsulated with "
+    // Now allow for arguments encapsulated with "
     int quoted = -1;
     for(int i = 0; i < args.size(); i++)
     {
@@ -54,24 +55,29 @@ SceVoid CMDHandle(char *cmd, size_t size, paf::string &res_msg)
             i -= (added - 1);
         }
     }
-    
+    print("Handled cmd\n");
+    for(auto& a : args)
+    {
+        print("%s\n", a.c_str());
+    }
     const CMDDefinition *def = GetCMD(args[0].c_str());
+    print("Got def: %p\n", def);
     if(!def)
     {
-        paf::common::string_util::setf(res_msg, "[Error] Command %s not found!\n", args[0].c_str());
+        res_msg = paf::common::FormatString("[Error] Command %s not found!\n", args[0].c_str());
         return;
     }
-
+    print("%s %p\n", def->name, def->executor);
     if(args.size() - 1 < def->minArgCount)
     {
-        paf::common::string_util::setf(res_msg, "[Error] Command %s requires at least %d arguments!\n", def->name, def->minArgCount);
+        res_msg = paf::common::FormatString("[Error] Command %s requires at least %d arguments!\n", def->name, def->minArgCount);
         return;
     }
 
     def->executor(args, res_msg);
 }
 
-SceInt32 CMDThread(SceSize args, ScePVoid argp)
+int CMDThread(SceSize args, ScePVoid argp)
 {
     print("[Start] CMDThread\n");
     SceNetSockaddrIn loaderAddr;
@@ -84,9 +90,9 @@ SceInt32 CMDThread(SceSize args, ScePVoid argp)
 #endif
     loaderAddr.sin_port = sceNetHtons(CMD_PORT);
 
-    SceInt32 bindR = sceNetBind(CMDSocketID, &loaderAddr, sizeof(loaderAddr));
+    int bindR = sceNetBind(CMDSocketID, &loaderAddr, sizeof(loaderAddr));
 
-    SceInt32 listenR = sceNetListen(CMDSocketID, 128);
+    int listenR = sceNetListen(CMDSocketID, 128);
     
     while (PluginUp && NetConnected)
     {
@@ -102,11 +108,11 @@ SceInt32 CMDThread(SceSize args, ScePVoid argp)
             int size = sceNetRecv(client_sockfd, cmd, sizeof(cmd), 0);
 
             paf::string res_msg;
-
+            print("Recieved: %s\n", cmd);
             if (size >= 0)
-                CMDHandle(cmd, (unsigned int)size, res_msg);
+                CMDHandle(cmd, size, res_msg);
                 
-            SceInt32 res = sceNetSend(client_sockfd, res_msg.c_str(), res_msg.length(), 0);
+            sceNetSend(client_sockfd, res_msg.c_str(), res_msg.length(), 0);
             sceNetSocketClose(client_sockfd);
         }
         else
@@ -120,9 +126,9 @@ SceInt32 CMDThread(SceSize args, ScePVoid argp)
     return sceKernelExitDeleteThread(0);
 }
 
-SceVoid CMDStart()
+void CMDStart()
 {
-    SceInt32 ret = SCE_OK;
+    int ret = SCE_OK;
     ret = sceKernelCreateThread("vitacompanion_cmd_thread", CMDThread, 0x40, SCE_KERNEL_128KiB, 0, SCE_KERNEL_THREAD_CPU_AFFINITY_MASK_DEFAULT, SCE_NULL);
     if(ret == SCE_UID_INVALID_UID)
     {
@@ -138,7 +144,7 @@ SceVoid CMDStart()
     }
 }
 
-SceVoid CMDStop()
+void CMDStop()
 {
     sceNetSocketClose(CMDSocketID);
     sceKernelWaitThreadEnd(CMDThreadID, SCE_NULL, SCE_NULL);

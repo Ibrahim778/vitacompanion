@@ -3,6 +3,6 @@
 
 #include <kernel.h>
 
-SceVoid DisplayWidgets();
+void DisplayWidgets();
 
 #endif

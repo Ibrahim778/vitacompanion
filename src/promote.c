@@ -2,7 +2,9 @@
 
 #include <kernel.h>
 #include <libsysmodule.h>
-#include <paf/stdc.h>
+#include <paf/std/string.h>
+#include <paf/std/stdlib.h>
+#include <paf/std/stdio.h>
 
 #include "sha1.h"
 #include "head_bin.h"
