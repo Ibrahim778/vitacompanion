@@ -12,11 +12,12 @@ Use VDSuite
 
 # Install
 
-Run VitaShell on your PS Vita, press SELECT to activate the FTP server and copy `vitacompanion.suprx` to `ur0:/tai`. Finally, add the following line to `ur0:/tai/config.txt`:
+The main plugin `vitacompanion.suprx` requires QuickMenuReborn, to install it see instructions [here](https://github.com/Ibrahim778/QuickMenuReborn)
+
+The kernel plugin is to be installed normally run VitaShell on your PS Vita, press SELECT to activate the FTP server and copy `VCKernel.skprx` to `ur0:/tai`. Finally, add the following line to `ur0:/tai/config.txt` under the `*KERNEL` section:
 
 ```
-*main
-ur0:tai/vitacompanion.suprx
+ur0:tai/VCKernel.skprx
 ```
 
 # Usage
