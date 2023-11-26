@@ -16,13 +16,13 @@
 using namespace paf;
 
 extern "C" {
-    SceUID   _vshKernelSearchModuleByName(const char *name, SceUInt64 *buff);
-    SceUID   VCKernelLaunchSelfWithArgs(const char *path, const char *argp, size_t args);
-    SceUID   VCKernelFindKernelModule(const char *uName);
-    SceUID   VCKernelLoadStartKernelModule(const char *path, int *res);
-    int VCKernelStopUnloadKernelModule(SceUID modid, int *res);
-    bool  VCKernelGetUSBStatus();
-    int VCKernelStopUSBMass();
+    SceUID _vshKernelSearchModuleByName(const char *name, SceUInt64 *buff);
+    SceUID VCKernelLaunchSelfWithArgs(const char *path, const char *argp, size_t args);
+    SceUID VCKernelFindKernelModule(const char *uName);
+    SceUID VCKernelLoadStartKernelModule(const char *path, int *res);
+    int    VCKernelStopUnloadKernelModule(SceUID modid, int *res);
+    bool   VCKernelGetUSBStatus();
+    int    VCKernelStopUSBMass();
 };
 
 bool g_InstallJobRunning = false;
@@ -74,10 +74,15 @@ void CMDDestroy(vector<string>& args, string &res_msg)
 
 void CMDLaunch(vector<string>& args, string &res_msg)
 {
-    if(VCKernelGetUSBStatus())
+    SceUInt64 buff = 0;
+    
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) > 0)
     {
-        res_msg = "[Abort] USB mounted\n";
-        return;
+        if(VCKernelGetUSBStatus())
+        {
+            res_msg = "[Abort] USB mounted\n";
+            return;
+        }
     }
     
     if(sce_paf_strstr(args[1].c_str(), "NPXS") != SCE_NULL)
@@ -126,19 +131,32 @@ void CMDScreen(vector<string>& args, string &res_msg)
 
 void CMDSelf(vector<string>& args, string &res_msg)
 {
+    SceUInt64 buff = 0;
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) <= 0)
+    {
+        res_msg = "[Abort] This command requires VCKernel which is not present\n";
+        return;
+    }
+
     SceUID ret = VCKernelLaunchSelfWithArgs(args[1].c_str(), SCE_NULL, 0);
     res_msg = common::FormatString("Result Code: 0x%X\n", ret);
 }
 
 void CMDUSB(vector<string>& args, string &res_msg)
 {
+    SceUInt64 buff = 0;
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) <= 0) // Kernel module not present
+    {
+        res_msg = "[Abort] This command requires VCKernel which is not present\n";
+        return;
+    }
+
     if(g_InstallJobRunning)
     {
         res_msg = "[Abort] An install job is running\n";
         return;
     }
 
-    SceUInt64 buff = 0;
     if(_vshKernelSearchModuleByName("VitaShellUsbDevice", &buff) > 0)
     {
         res_msg = "[Abort] VitaShell USB is already running\n";
@@ -216,6 +234,13 @@ void CMDTai(vector<string>& args, string &res_msg)
 
 void CMDSkprx(vector<string>& args, string &res_msg)
 {
+    SceUInt64 buff = 0;
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) <= 0)
+    {
+        res_msg = "[Abort] This command requires VCKernel which is not present\n";
+        return;
+    }
+
     if(args[1] == "load")
     {
         if(!LocalFile::Exists(args[2].c_str()))
@@ -323,10 +348,14 @@ void CMDVPK(vector<string>& args, string &res_msg)
         return;
     }
 
-    if(VCKernelGetUSBStatus())
+    SceUInt64 buff = 0;
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) > 0) // Kernel module present
     {
-        res_msg = "[Abort] USB is mounted\n";
-        return;
+        if(VCKernelGetUSBStatus())
+        {
+            res_msg = "[Abort] USB is mounted\n";
+            return;
+        }
     }
 
     Plugin *topmenu_plugin = Plugin::Find("topmenu_plugin");
@@ -402,10 +431,14 @@ void CMDProm(vector<string>& args, string &res_msg)
         return;
     }
 
-    if(VCKernelGetUSBStatus())
+    SceUInt64 buff = 0;
+    if(_vshKernelSearchModuleByName("VCKernel", &buff) > 0) // Kernel module present
     {
-        res_msg = "[Abort] USB is mounted\n";
-        return;
+        if(VCKernelGetUSBStatus())
+        {
+            res_msg = "[Abort] USB is mounted\n";
+            return;
+        }
     }
 
     Plugin *topmenu_plugin = Plugin::Find("topmenu_plugin");

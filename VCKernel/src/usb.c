@@ -88,7 +88,7 @@ int PatchUSB()
   	if(hooks[2] < 0)
         return hooks[2];
 
-    sceDebugPrintf("exfat and image path limit patches = %x %x %x\n", hooks[0], hooks[1], hooks[2]);
+    print("exfat and image path limit patches = %x %x %x\n", hooks[0], hooks[1], hooks[2]);
     
     return SCE_OK;
 }
