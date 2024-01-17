@@ -411,7 +411,7 @@ int cpyTillNewLine(char *dest, const char *src, size_t max)
 {
     sce_paf_strncpy(dest, src, max);
     for(char *c = dest; *c != '\0'; c++)
-        if(*c == ' ' || *c == '\n' || *c == '\r')
+        if(*c == '\n' || *c == '\r')
         {
             *c = '\0';
             return 1;
