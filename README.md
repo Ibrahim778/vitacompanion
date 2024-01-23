@@ -59,6 +59,7 @@ See src/command_definitions.cpp for sauce or to add your own commands
 | `self`    | `<path>` | Load a SELF file and run it |
 | `prom`    | `<path>` | Promote and install an application from folder |
 | `vpk`     | `<path>` | Extract and install an application from a VPK file |
+| `exists`  | `<path>` | Check if a file or folder exists |
 
 ### Kernel Plugin
 
