@@ -27,6 +27,7 @@ void CMDTai(paf::vector<paf::string>& args, paf::string &res_msg);
 void CMDVPK(paf::vector<paf::string>& args, paf::string &client_res);
 void CMDProm(paf::vector<paf::string>& args, paf::string &res_msg);
 void CMDRename(paf::vector<paf::string>& args, paf::string &client_res);
+void CMDExists(paf::vector<paf::string>& args, paf::string &client_res);
 
 const CMDDefinition *GetCMD(const char *name);
 
@@ -123,6 +124,13 @@ const CMDDefinition CMDDefinitions[] =
         .minArgCount = 2, 
         .executor = CMDRename
     },
+    {
+        .name = "exists",
+        .description = "Check if a file / folder exists",
+        .usage = "Usage:\n\texists <path>\nExample:\n\texists ux0:foo.txt",
+        .minArgCount = 1,
+        .executor = CMDExists
+    }
 };
 
 #endif

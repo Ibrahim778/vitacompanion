@@ -25,6 +25,8 @@ extern "C" {
     int    VCKernelStopUSBMass();
 };
 
+extern int checkFileExist(const char *file); // defined in usb.cpp
+
 bool g_InstallJobRunning = false;
 
 const CMDDefinition *GetCMD(const char *name)
@@ -196,6 +198,18 @@ void CMDUSB(vector<string>& args, string &res_msg)
             res_msg = common::FormatString("[Error] Failed to unmount 0x%X\n", ret);
         else res_msg = "Unmounted successfully\n";
     }
+}
+
+void CMDExists(vector<string>& args, string& res_msg)
+{
+    // Check directory
+    bool exists = false;
+    SceUID id = sceIoDopen(args[1].c_str());
+    exists = id > 0;
+    if(exists)
+        sceIoDclose(id);
+        
+    res_msg = checkFileExist(args[1].c_str()) || exists ? "Exists\n" : "Doesn't exist\n";
 }
 
 void CMDTai(vector<string>& args, string &res_msg)
